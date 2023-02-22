@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Ozalentour",
+    "slug": "ozalentour",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/appIcon.png",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "softwareKeyboardLayoutMode": "pan",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.myrmelo.ozalentour"
+    },
+    "ios": {
+      "bundleIdentifier": "com.myrmelo.ozalentour",
+      "buildNumber": "11"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fce11091-a311-4edd-ab49-9ad914f04e2f"
+      }
+    }
+  }
+}
