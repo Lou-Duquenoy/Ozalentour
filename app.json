@@ -8,7 +8,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
@@ -22,7 +24,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "fce11091-a311-4edd-ab49-9ad914f04e2f"
+        "projectId": "769600fe-f7e7-4737-be79-6b159ecce37d"
       }
     }
   }

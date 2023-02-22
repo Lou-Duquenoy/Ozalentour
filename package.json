@@ -35,7 +35,7 @@
     "react-native-pell-rich-editor": "^1.8.8",
     "react-native-phone-input": "^1.3.4",
     "react-native-qrcode-svg": "^6.1.2",
-    "react-native-reanimated": "~2.8.0",
+    "react-native-reanimated": "~2.12.0",
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-uuid": "^2.0.1",
     "react-native-web": "0.17.7",
