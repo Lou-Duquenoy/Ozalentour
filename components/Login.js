@@ -63,13 +63,14 @@ export default function Login({ setTransactions }) {
         }
       )
       .catch(function (error) {
+        console.log(error);
         if (error.response) {
           setAskLogin(false);
           setWarning(true);
         }
       })
       .then(async function (res) {
-        console.log(res);
+        console.log("result", res);
         if (res != undefined) {
           loginToken = res.data.token;
           await AsyncStorage.setItem("token", loginToken);
