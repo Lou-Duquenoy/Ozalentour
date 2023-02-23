@@ -112,7 +112,7 @@ export default function Register() {
     setEmailTypeError(false);
     setPhoneTypeError(false);
 
-    console.log(userData);
+    console.log("on submit", userData);
     let email = userData.email;
     let phone = userData.phone;
     console.log(phone);
@@ -199,13 +199,13 @@ export default function Register() {
 
         response.status == 200 && setFormStep(4);
 
-        // let phoneNumber = userData.phone;
+        let phone = userData.phone;
 
         axios
           .post(
             `${BASE_URL}/register/sendRegisterSMS`,
             {
-              data: userData.phone,
+              phone,
             },
             {
               headers: {
@@ -216,6 +216,9 @@ export default function Register() {
           .then(function (response) {
             console.log(response.data);
             setFormStep(4);
+          })
+          .catch((error) => {
+            console.log(error);
           });
       });
     /* setFormStep(4); */
@@ -236,6 +239,9 @@ export default function Register() {
       )
       .then(function (response) {
         console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
