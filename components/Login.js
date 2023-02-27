@@ -43,19 +43,11 @@ export default function Login({ setTransactions }) {
   const [showPassword, setShowPassword] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
 
-  useEffect(() => {
-    async function getFirstTimeInfo() {
-      const wasOpenedPreviously = await AsyncStorage.getItem(
-        "wasAppOpenedPreviously"
-      );
-      if (wasOpenedPreviously) {
-        setWasAppOpenedPreviously(true);
-      } else {
-        setLoginStep(2);
-      }
-    }
-    getFirstTimeInfo();
-  }, []);
+  // useEffect(() => {
+  //   if (!wasAppOpenedPreviously) {
+  //     setLoginStep(2);
+  //   }
+  // }, []);
 
   const i18n = new I18n({ fr, en });
   i18n.enableFallback = true;
@@ -143,6 +135,10 @@ export default function Login({ setTransactions }) {
         }
       });
   };
+
+  if (!wasAppOpenedPreviously) {
+    return <Register />;
+  }
 
   switch (loginStep) {
     case 0:
