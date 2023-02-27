@@ -123,6 +123,8 @@ export default function Home() {
       let getWalletId = await AsyncStorage.getItem("walletId");
       let getBSCWallet = await AsyncStorage.getItem("BSCWallet");
       let getBSCAmount = await AsyncStorage.getItem("BSCAmount");
+      let EUR = await AsyncStorage.getItem("EUR");
+      setEURWallet(EUR || 0);
       setBSCAmount(getBSCAmount);
       setBSCWallet(getBSCWallet);
       setToken(getToken);
@@ -220,8 +222,7 @@ export default function Home() {
     setUserAvatar(getUserAvatar);
 
     let token = await AsyncStorage.getItem("token");
-
-    await axios
+    axios
       .post(
         `${BASE_URL}/user/getData`,
 
@@ -236,11 +237,15 @@ export default function Home() {
       )
       .then(async (res) => {
         console.log(res.data);
-        AsyncStorage.setItem("EUR", res.data.EUR.toString());
-
-        let getEUR = await AsyncStorage.getItem("EUR");
-        setEURWallet(getEUR);
+        const EUR = res?.data?.EUR?.toString();
+        if (EUR) {
+          AsyncStorage.setItem("EUR", EUR);
+          setEURWallet(EUR);
+        }
         //checkTransactions();
+      })
+      .catch((error) => {
+        console.error(error);
       });
   }
 
