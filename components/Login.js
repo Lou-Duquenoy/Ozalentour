@@ -42,7 +42,6 @@ export default function Login({ setTransactions }) {
   const [warning, setWarning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
-  // const [isAppOpenedFirstTime, setIsAppOpenedFirstTime] = useState(true);
 
   useEffect(() => {
     async function getFirstTimeInfo() {
@@ -50,9 +49,9 @@ export default function Login({ setTransactions }) {
         "wasAppOpenedPreviously"
       );
       if (wasOpenedPreviously) {
-        setLoginStep(2);
-      } else {
         setWasAppOpenedPreviously(true);
+      } else {
+        setLoginStep(2);
       }
     }
     getFirstTimeInfo();

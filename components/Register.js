@@ -17,11 +17,18 @@ import axios from "axios";
 import Login from "./Login";
 import { fr, en } from "../languages";
 import { I18n } from "i18n-js";
+import Onboarding from "./Onboarding";
 
 const BASE_URL = "https://api007.ozalentour.com";
 
 export default function Register() {
-  const { login, setLogin, locale } = useContext(DataContext);
+  const {
+    login,
+    setLogin,
+    locale,
+    wasAppOpenedPreviously,
+    setWasAppOpenedPreviously,
+  } = useContext(DataContext);
   const [boxSelected, setBoxSelected] = useState(false);
   const [userData, setUserData] = useState({
     lastName: "",
@@ -304,6 +311,12 @@ export default function Register() {
   useEffect(() => {
     console.log(userData);
   }, [userData]);
+
+  useEffect(() => {
+    if (!wasAppOpenedPreviously) {
+      setFormStep(7);
+    }
+  }, [wasAppOpenedPreviously]);
 
   switch (formStep) {
     /* **********************************************************************
@@ -730,6 +743,14 @@ export default function Register() {
 
     case 6:
       return <Login />;
+    case 7:
+      return (
+        <Onboarding
+          navigateToRegister={() => {
+            setFormStep(1);
+          }}
+        />
+      );
   }
 }
 
