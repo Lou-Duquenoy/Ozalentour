@@ -38,6 +38,7 @@ export default function ContextProvider(props) {
   const [BSCAmount, setBSCAmount] = useState("");
   const [showNotAvailable, setShowNotAvailable] = useState(false);
   const [updateBSCWallet, setUpdateBSCWallet] = useState(false);
+  const [wasAppOpenedPreviously, setWasAppOpenedPreviously] = useState(false);
 
   return (
     <DataContext.Provider
@@ -112,6 +113,8 @@ export default function ContextProvider(props) {
         setShowNotAvailable,
         updateBSCWallet,
         setUpdateBSCWallet,
+        wasAppOpenedPreviously,
+        setWasAppOpenedPreviously,
       }}
     >
       {props.children}

@@ -24,8 +24,16 @@ const BASE_URL = "https://api007.ozalentour.com";
 let loginToken = null;
 
 export default function Login({ setTransactions }) {
-  const { setLogin, setToken, setWalletId, locale, setLocale, setBSCAmount } =
-    useContext(DataContext);
+  const {
+    setLogin,
+    setToken,
+    setWalletId,
+    locale,
+    setLocale,
+    setBSCAmount,
+    wasAppOpenedPreviously,
+    setWasAppOpenedPreviously,
+  } = useContext(DataContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +42,21 @@ export default function Login({ setTransactions }) {
   const [warning, setWarning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
+  // const [isAppOpenedFirstTime, setIsAppOpenedFirstTime] = useState(true);
+
+  useEffect(() => {
+    async function getFirstTimeInfo() {
+      const wasOpenedPreviously = await AsyncStorage.getItem(
+        "wasAppOpenedPreviously"
+      );
+      if (wasOpenedPreviously) {
+        setLoginStep(2);
+      } else {
+        setWasAppOpenedPreviously(true);
+      }
+    }
+    getFirstTimeInfo();
+  }, []);
 
   const i18n = new I18n({ fr, en });
   i18n.enableFallback = true;
