@@ -47,7 +47,7 @@ const Onboarding = ({ navigateToRegister }) => {
       <Carousel
         ref={carouselRef}
         width={width}
-        height={height * 0.8}
+        height={height - 200}
         data={[...new Array(3).keys()]}
         onSnapToItem={(index) => {
           setCurrent(index);
@@ -111,14 +111,16 @@ const OnboardingItem = ({ index }) => {
               style={[styles.image, { marginLeft: -50 }]}
             />
           </ImageBackground>
-          <Text style={[styles.title, { marginLeft: -50 }]}>
-            Explorez Ozalentour !
-          </Text>
-          <Text style={[styles.description, { marginLeft: -50 }]}>
-            Profitez des meilleures activités et {"\n"} offres locales partagées
-            par la {"\n"}
-            communauté !
-          </Text>
+          <>
+            <Text style={[styles.title, { marginLeft: -50 }]}>
+              Explorez Ozalentour !
+            </Text>
+            <Text style={[styles.description, { marginLeft: -50 }]}>
+              Profitez des meilleures activités et {"\n"} offres locales
+              partagées par la {"\n"}
+              communauté !
+            </Text>
+          </>
         </View>
       );
     case 1:
@@ -180,18 +182,14 @@ const styles = StyleSheet.create({
   },
   itemWrapper: {
     flex: 1,
-    paddingBottom: 50,
+    justifyContent: "center",
   },
   imageBackground: {
-    flex: 1,
-    justifyContent: "flex-end",
+    height: "70%",
+    justifyContent: "center",
     alignItems: "center",
   },
-  image: {
-    marginBottom: -50,
-  },
   title: {
-    paddingTop: 100,
     fontFamily: "MontserratSemiBold",
     fontSize: 20,
     textAlign: "center",
@@ -212,8 +210,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 15,
-    marginBottom: 78,
+    marginTop: "3%",
+    marginBottom: "9%",
   },
   point: {
     width: 8,
