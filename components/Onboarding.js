@@ -1,35 +1,56 @@
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
-  Pressable,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   Dimensions,
   ImageBackground,
 } from "react-native";
-import { useEffect, useState, useContext } from "react";
-import { fr, en } from "../languages";
-import { I18n } from "i18n-js";
+import { useState, useContext, useRef } from "react";
 import { DataContext } from "./Context";
 import Carousel from "react-native-reanimated-carousel";
 
 const Onboarding = ({ navigateToRegister }) => {
+  const { locale, setLocale } = useContext(DataContext);
+  const carouselRef = useRef();
   const { width, height } = Dimensions.get("window");
   const [current, setCurrent] = useState(0);
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        {locale == "en" ? (
+          <TouchableOpacity
+            onPress={() => {
+              setLocale("fr");
+            }}
+          >
+            <Image
+              style={styles.headerIcon}
+              source={require("../assets/flagFr.jpg")}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              setLocale("en");
+            }}
+          >
+            <Image
+              style={styles.headerIcon}
+              source={require("../assets/flagEn.png")}
+            />
+          </TouchableOpacity>
+        )}
+        <Image source={require("../assets/plug.png")}></Image>
+      </View>
       <Carousel
+        ref={carouselRef}
         width={width}
         height={height * 0.8}
         data={[...new Array(3).keys()]}
         onSnapToItem={(index) => {
           setCurrent(index);
-          // if (index === 3 && current != 0) {
-          //   navigateToRegister();
-          // }
         }}
         renderItem={({ index }) => <OnboardingItem index={index} />}
         style={{ flex: 1 }}
@@ -56,13 +77,15 @@ const Onboarding = ({ navigateToRegister }) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          setCurrent((current) => {
-            if (current >= 2) {
-              navigateToRegister();
-            } else {
+          if (current >= 2) {
+            navigateToRegister();
+            // setWasAppOpenedPreviously(true);
+          } else {
+            carouselRef.current.next();
+            setCurrent((current) => {
               return current + 1;
-            }
-          });
+            });
+          }
         }}
         style={styles.buttonWrapper}
       >
@@ -145,9 +168,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    marginTop: 30,
+  },
+  headerIcon: {
+    width: 30,
+    height: 30,
+  },
   itemWrapper: {
     flex: 1,
-    marginTop: 50,
     paddingBottom: 50,
   },
   imageBackground: {

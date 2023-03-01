@@ -47,7 +47,7 @@ export default function ContextProvider(props) {
       const wasOpenedPreviously = await AsyncStorage.getItem(
         "wasAppOpenedPreviously"
       );
-      if (wasOpenedPreviously) {
+      if (wasOpenedPreviously === "true") {
         setWasAppOpenedPreviously(true);
       } else {
         setWasAppOpenedPreviously(false);

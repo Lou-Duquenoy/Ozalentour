@@ -108,6 +108,9 @@ export default function Login({ setTransactions }) {
           AsyncStorage.setItem("walletId", data.data.walletId);
           AsyncStorage.setItem("avatar", data.data.avatar);
           AsyncStorage.setItem("BSCWallet", data.data.BSCWallet);
+          await AsyncStorage.setItem("wasAppOpenedPreviously", "true");
+          let wasOpened = await AsyncStorage.getItem("wasAppOpenedPreviously");
+          console.log("bla login opened", wasOpened);
 
           console.log(data.data);
           axios
