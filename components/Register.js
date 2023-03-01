@@ -17,11 +17,19 @@ import axios from "axios";
 import Login from "./Login";
 import { fr, en } from "../languages";
 import { I18n } from "i18n-js";
+import Onboarding from "./Onboarding";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BASE_URL = "https://api007.ozalentour.com";
 
 export default function Register() {
-  const { login, setLogin, locale } = useContext(DataContext);
+  const {
+    login,
+    setLogin,
+    locale,
+    wasAppOpenedPreviously,
+    setWasAppOpenedPreviously,
+  } = useContext(DataContext);
   const [boxSelected, setBoxSelected] = useState(false);
   const [userData, setUserData] = useState({
     lastName: "",
@@ -305,6 +313,12 @@ export default function Register() {
     console.log(userData);
   }, [userData]);
 
+  useEffect(() => {
+    if (!wasAppOpenedPreviously) {
+      setFormStep(7);
+    }
+  }, [wasAppOpenedPreviously]);
+
   switch (formStep) {
     /* **********************************************************************
      ---------------------------------- FIRST STEP ----------------------------
@@ -484,6 +498,7 @@ export default function Register() {
               {i18n.t("déjàUnCompte")}
               <TouchableOpacity
                 onPress={() => {
+                  setWasAppOpenedPreviously("true");
                   setFormStep(6);
                 }}
               >
@@ -719,8 +734,9 @@ export default function Register() {
           <Text style={styles.description}>{i18n.t("connectezVous")}</Text>
           <Pressable
             style={styles.submit}
-            onPress={() => {
+            onPress={async () => {
               setFormStep(6);
+              await AsyncStorage.setItem("wasAppOpenedPreviously", "true");
             }}
           >
             <Text style={styles.submitText}>{i18n.t("seConnecter")}</Text>
@@ -730,6 +746,14 @@ export default function Register() {
 
     case 6:
       return <Login />;
+    case 7:
+      return (
+        <Onboarding
+          navigateToRegister={() => {
+            setFormStep(1);
+          }}
+        />
+      );
   }
 }
 

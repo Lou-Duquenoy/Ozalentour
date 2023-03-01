@@ -24,8 +24,16 @@ const BASE_URL = "https://api007.ozalentour.com";
 let loginToken = null;
 
 export default function Login({ setTransactions }) {
-  const { setLogin, setToken, setWalletId, locale, setLocale, setBSCAmount } =
-    useContext(DataContext);
+  const {
+    setLogin,
+    setToken,
+    setWalletId,
+    locale,
+    setLocale,
+    setBSCAmount,
+    wasAppOpenedPreviously,
+    setWasAppOpenedPreviously,
+  } = useContext(DataContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +42,12 @@ export default function Login({ setTransactions }) {
   const [warning, setWarning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
+
+  // useEffect(() => {
+  //   if (!wasAppOpenedPreviously) {
+  //     setLoginStep(2);
+  //   }
+  // }, []);
 
   const i18n = new I18n({ fr, en });
   i18n.enableFallback = true;
@@ -94,6 +108,9 @@ export default function Login({ setTransactions }) {
           AsyncStorage.setItem("walletId", data.data.walletId);
           AsyncStorage.setItem("avatar", data.data.avatar);
           AsyncStorage.setItem("BSCWallet", data.data.BSCWallet);
+          await AsyncStorage.setItem("wasAppOpenedPreviously", "true");
+          let wasOpened = await AsyncStorage.getItem("wasAppOpenedPreviously");
+          console.log("bla login opened", wasOpened);
 
           console.log(data.data);
           axios
@@ -121,6 +138,10 @@ export default function Login({ setTransactions }) {
         }
       });
   };
+
+  if (!wasAppOpenedPreviously) {
+    return <Register />;
+  }
 
   switch (loginStep) {
     case 0:

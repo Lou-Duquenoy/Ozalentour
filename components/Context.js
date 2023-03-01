@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const DataContext = createContext();
 
@@ -38,6 +40,21 @@ export default function ContextProvider(props) {
   const [BSCAmount, setBSCAmount] = useState("");
   const [showNotAvailable, setShowNotAvailable] = useState(false);
   const [updateBSCWallet, setUpdateBSCWallet] = useState(false);
+  const [wasAppOpenedPreviously, setWasAppOpenedPreviously] = useState(null);
+
+  useEffect(() => {
+    async function getFirstTimeInfo() {
+      const wasOpenedPreviously = await AsyncStorage.getItem(
+        "wasAppOpenedPreviously"
+      );
+      if (wasOpenedPreviously === "true") {
+        setWasAppOpenedPreviously(true);
+      } else {
+        setWasAppOpenedPreviously(false);
+      }
+    }
+    getFirstTimeInfo();
+  }, []);
 
   return (
     <DataContext.Provider
@@ -112,9 +129,19 @@ export default function ContextProvider(props) {
         setShowNotAvailable,
         updateBSCWallet,
         setUpdateBSCWallet,
+        wasAppOpenedPreviously,
+        setWasAppOpenedPreviously,
       }}
     >
-      {props.children}
+      {wasAppOpenedPreviously === null ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        props.children
+      )}
     </DataContext.Provider>
   );
 }
